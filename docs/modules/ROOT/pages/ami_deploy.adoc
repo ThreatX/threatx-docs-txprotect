@@ -4,7 +4,6 @@
 :product-name: TX Protect
 :page-product-name:  {product-name}
 :page-origin-type: git
-:toclevels: 3
 :sectlinks:
 :sectanchors:
 :sectids:
@@ -14,9 +13,7 @@
 :imagesdir: ../images
 
 
-image:https://www.threatx.com/wp-content/uploads/2022/02/deployment-guides.svg[Deployment Guides]
 
-image:deployment-guides.svg[Deployment Guides]
 
 The ThreatX WAF Sensor AMI can be used to quickly and easily add application security to applications
 
@@ -43,67 +40,59 @@ Disk size should be a minimum of *20 GB*.
 
 In the simplest deployment, the AMI can be launched with the following User-Data information:
 
-[source,wp-block-code]
+[source,yaml]
 ----
 #cloud-config
 
 write_files:
-
  - path: /etc/txconf
-
    content: |
-
-     CUSTOMER={{customer_name}}
-
-     API_KEY={{customer_sensor_key}}
-
+     CUSTOMER=<customer_name>
+     API_KEY=<customer_sensor_key>
      RESOLVER=local
-
-     SENSOR_TAGS=tag1,tag2
+     SENSOR_TAGS=tag1,tag2  # <1>
 ----
+<1> You can set the `SENSOR_TAGS` variable to a comma delimited list of tags that can help you filter the sensors within the ThreatX Dashboard UI or API.
 
-_Note: This example is provided yml format. Spaces must be used when formatting this data, and not tabs or other whitespace characters/indentation methods._
-
-You can set the `+SENSOR_TAGS+` variable to a comma delimited list of tags that can help you filter the sensors within the ThreatX Dashboard UI or API.
 
 === Troubleshooting
 
-The AMI is based on a CentOS build and the centos user can be used to login. Make sure to reference your private ssh key when connecting: $ ssh -i sshkey.pem mailto:core@200.1.1.1[centos@200.1.1.1]
 
-Once logged in, you can sudo su to get root access.
-
-[source,wp-block-code]
+.Login as core user
+[,console]
 ----
-sudo su
+$ ssh -i sshkey.pem core@200.1.1.1
 ----
 
-To see the AMI version, run this command on either the CentOS host or within the ThreatX WAF container.
-
-[source,wp-block-code]
+.Get root access.
+[,console]
 ----
-echo $TXWAF_AMI_VERSION
-----
-
-To follow the CentOS system log, run
-
-[source,wp-block-code]
-----
-journalctl -f
+$ sudo su
 ----
 
-To see the ThreatX WAF docker container, run
-
-[source,wp-block-code]
+.See the AMI version
+[,console]
 ----
-docker ps
-----
-
-To get a shell into the ThreatX WAF container, run
-
-[source,wp-block-code]
-----
-docker exec -it txwaf bash
+$ echo $TXWAF_AMI_VERSION
 ----
 
-image:data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjMiIHZpZXdib3g9IjAgMCAyMCAyMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMSA0SDE5VjIySDFWNFoiIHN0cm9rZT0iI0QyMzIwMCIgc3Ryb2tlLXdpZHRoPSIyIiAvPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xIDRIMTlWNkgxVjRaIiBmaWxsPSIjRDIzMjAwIiBzdHJva2U9IiNEMjMyMDAiIHN0cm9rZS13aWR0aD0iMiIgLz4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iNC42OTc3NSIgeTE9IjExLjU2OTYiIHgyPSI4LjY5Nzc1IiB5Mj0iMTEuNTY5NiIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iMTEuMzAyNSIgeTE9IjExLjU2OTYiIHgyPSIxNS4zMDI1IiB5Mj0iMTEuNTY5NiIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iNC42OTc3NSIgeTE9IjE2Ljk4NDUiIHgyPSI4LjY5Nzc1IiB5Mj0iMTYuOTg0NSIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iMTEuMzAyNSIgeTE9IjE2Ljk4NDUiIHgyPSIxNS4zMDI1IiB5Mj0iMTYuOTg0NSIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iNi4xNTUyNyIgeTE9IjUiIHgyPSI2LjE1NTI3IiB5Mj0iNC4zNzExNGUtMDgiIHN0cm9rZT0iI0QyMzIwMCIgc3Ryb2tlLXdpZHRoPSIyIj48L2xpbmU+CiAgICAgICAgICAgICAgICAgICAgPGxpbmUgeDE9IjE0LjI1IiB5MT0iNSIgeDI9IjE0LjI1IiB5Mj0iNC4zNzExNGUtMDgiIHN0cm9rZT0iI0QyMzIwMCIgc3Ryb2tlLXdpZHRoPSIyIj48L2xpbmU+CiAgICAgICAgICAgICAgICA8L3N2Zz4=[data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjMiIHZpZXdib3g9IjAgMCAyMCAyMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMSA0SDE5VjIySDFWNFoiIHN0cm9rZT0iI0QyMzIwMCIgc3Ryb2tlLXdpZHRoPSIyIiAvPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xIDRIMTlWNkgxVjRaIiBmaWxsPSIjRDIzMjAwIiBzdHJva2U9IiNEMjMyMDAiIHN0cm9rZS13aWR0aD0iMiIgLz4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iNC42OTc3NSIgeTE9IjExLjU2OTYiIHgyPSI4LjY5Nzc1IiB5Mj0iMTEuNTY5NiIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iMTEuMzAyNSIgeTE9IjExLjU2OTYiIHgyPSIxNS4zMDI1IiB5Mj0iMTEuNTY5NiIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iNC42OTc3NSIgeTE9IjE2Ljk4NDUiIHgyPSI4LjY5Nzc1IiB5Mj0iMTYuOTg0NSIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iMTEuMzAyNSIgeTE9IjE2Ljk4NDUiIHgyPSIxNS4zMDI1IiB5Mj0iMTYuOTg0NSIgc3Ryb2tlPSIjRDIzMjAwIiBzdHJva2Utd2lkdGg9IjIiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iNi4xNTUyNyIgeTE9IjUiIHgyPSI2LjE1NTI3IiB5Mj0iNC4zNzExNGUtMDgiIHN0cm9rZT0iI0QyMzIwMCIgc3Ryb2tlLXdpZHRoPSIyIj48L2xpbmU+CiAgICAgICAgICAgICAgICAgICAgPGxpbmUgeDE9IjE0LjI1IiB5MT0iNSIgeDI9IjE0LjI1IiB5Mj0iNC4zNzExNGUtMDgiIHN0cm9rZT0iI0QyMzIwMCIgc3Ryb2tlLXdpZHRoPSIyIj48L2xpbmU+CiAgICAgICAgICAgICAgICA8L3N2Zz4=]
+.Follow the CentOS system log
+[,console]
+----
+$ journalctl -f
+----
+
+.See the ThreatX WAF docker container
+[,console]
+----
+$ docker ps
+----
+
+.Get a shell into the ThreatX WAF container
+[,console]
+----
+$ docker exec -it txwaf bash
+----
+
+
 
