@@ -1,2 +1,1 @@
-.Installation Guides
 * xref:ami_deploy.adoc[AWS AMI Deployment Guide]

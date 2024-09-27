@@ -15,29 +15,31 @@
 
 
 
-The ThreatX WAF Sensor AMI can be used to quickly and easily add application security to applications
-
-deployed in AWS VPCs. The AMI can be found by launching an instance and searching for “*ThreatX WAF*” when choosing an AMI.
+The ThreatX WAF Sensor AMI can be used to quickly and easily add application security to applications deployed in AWS VPCs. The AMI can be found by launching an instance and searching for “*ThreatX WAF*” when choosing an AMI.
 
 image::image001-1024x745.png[image001-1024x745,width=1024,height=745]
 
-== Attributes
-
-The AMI has the following attributes:
-
+.AMI Attributes
+****
 * Based on the latest (at the time of publishing) CentOS AMI
 * Pulls the latest version of the txWAF Sensor container from Docker Hub at instance launch and on service restart
 * Restarts the txWAF docker container if it stops
 * Can be orchestrated via User-Data
-
-== Minimum Requirements
-
-Instance size of *t3.micro or larger* to satisfy the minimum requirements of *2 CPU cores and 1 GB RAM*.
-
-Disk size should be a minimum of *20 GB*.
+****
 
 == Launching the AMI
 
+
+.Minimum Requirements
+[horizontal]
+CPU:: 2 cores 
+RAM:: 1 GB
+Disk:: 20 GB
+
+TIP: An instance type of *t3.micro or larger* is recommended.
+
+
+=== Configuration
 In the simplest deployment, the AMI can be launched with the following User-Data information:
 
 [source,yaml]

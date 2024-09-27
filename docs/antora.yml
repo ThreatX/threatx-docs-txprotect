@@ -1,6 +1,6 @@
 # Descriptor of the Antora site.
 name: txprotect
-title: TX Protect User Guide
+title: TX Protect 
 version: '3.20'
 nav:
 - modules/ROOT/nav.adoc
