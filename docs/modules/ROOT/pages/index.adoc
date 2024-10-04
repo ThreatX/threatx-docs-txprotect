@@ -1,7 +1,10 @@
 = TX Protect Documentation 
 :description: Find the right installation guide for your environment and get started with ThreatX Prevent.
 :icons: font
+:imagesdir: ../images
 
+
+image::waap-sensor.png[align="center",width="80%"]
 == 🧭 Installation Guides
 
 * xref:ami_deploy.adoc
